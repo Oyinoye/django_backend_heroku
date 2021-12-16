@@ -14,6 +14,7 @@ from pathlib import Path
 from datetime import timedelta
 import django_heroku
 import os
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,7 +24,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '9u!f(zfq2j7s!rqvxpjn&mzko-wae-_#wm8@8cf+f7_=&w!8xu'
+SECRET_KEY = os.environ.get('SECRET_KEY')
+
+EMAIL_HOST_USER = os.environ.get('EMAIL HOST USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL HOST PASSWORD')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -93,6 +97,8 @@ DATABASES = {
     }
 }
 
+db_from_env = dj_database_url.config(conn_max_age=600)
+DATABASES['default'].update(db_from_env)
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -142,7 +148,7 @@ STATIC_URL = '/static/'
 
 # Place static in the same location as webpack build files
 STATIC_ROOT = os.path.join(BASE_DIR, 'build', 'static')
-STATICFILES_DIRS = []
+STATICFILES_DIRS = [os.path.join(BASE_DIR), 'rideco-grocery-app-backend/static']
 
 # If you want to serve user uploaded files add these settings
 MEDIA_URL = '/media/'
