@@ -1,0 +1,13 @@
+
+
+**/venv/
+**/tests/
+
+**/migrations
+*.DS_Store
+**/__pycache__
+**/.DS_Store
+
+db.sqlite3
+
+tests.py
